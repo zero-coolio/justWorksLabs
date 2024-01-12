@@ -79,7 +79,7 @@ func calc(amount float64, percentage float64, coin float64) float64 {
 func main() {
 	log.Println("----stephen leonard----")
 	argsWithProg := os.Args
-	if len(argsWithProg) == 0 {
+	if len(argsWithProg) <= 1 {
 
 		log.Println("Starting Dollar amount needed as program argument")
 		os.Exit(2)
