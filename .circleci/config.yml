@@ -1,0 +1,49 @@
+# CircleCI configuration file
+version: 2.1
+
+orbs:
+  golang: cci-orb/golang@0.1.20
+
+jobs:
+  # Job one with a unique name
+  say_hello:
+    docker:
+      - image: cimg/base:2022.05
+    steps:
+      - run: echo "Say hello to YAML!"
+
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/go:1.20.12
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Install Dependencies
+          command: go get ./...
+      - save_cache:
+          key: go-mod-v4-{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run:
+          name: Run tests
+          command: go test -v
+
+  # Job two with a unique name
+  say_goodbye:
+    docker:
+      - image: cimg/base:2022.05
+    steps:
+      - run: echo "Say goodbye to YAML"
+
+workflows:
+  # Name of workflow
+  hello_and_goodbye:
+    # List of jobs that will run
+    jobs:
+      - say_hello
+      - build
+      - say_goodbye
