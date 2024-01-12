@@ -80,8 +80,11 @@ func main() {
 	log.Println("----stephen leonard----")
 	argsWithProg := os.Args
 	if len(argsWithProg) == 0 {
-		panic("Starting Dollar amount needed as program argument")
+
+		log.Println("Starting Dollar amount needed as program argument")
+		os.Exit(2)
 	}
+
 	amountString := os.Args[1]
 	fmt.Println("Converting for: [$" + amountString + "]")
 	amount, err := strconv.ParseFloat(amountString, 64)
